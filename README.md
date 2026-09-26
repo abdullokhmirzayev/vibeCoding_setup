@@ -376,6 +376,58 @@ In production, you cannot debug an agent by reading console prints. You need dis
 
 ---
 
+## ⚡ Quickstart & Interactive Usage
+
+### 1. Installation
+```bash
+# Clone the repository
+git clone git@github.com:abdullokhmirzayev/vibeCoding_setup.git
+cd vibeCoding_setup
+
+# Create virtual environment and install dependencies
+make setup
+```
+
+### 2. Run Test Suite
+```bash
+# Run all 17 unit tests (100% pass rate)
+make test
+```
+
+### 3. Interactive CLI Console
+```bash
+# Inspect all registered skills with Progressive Disclosure
+.venv/bin/python -m src.cli skills
+
+# Test a command against deterministic PreToolUse governance hooks
+.venv/bin/python -m src.cli check "rm -rf /"       # -> DENY
+.venv/bin/python -m src.cli check "git reset --hard" # -> ASK (HITL)
+.venv/bin/python -m src.cli check "git status"     # -> ALLOW
+
+# Inspect dynamic XML-tagged prompt assembly
+.venv/bin/python -m src.cli prompt
+
+# Manage L4 persistent memory
+.venv/bin/python -m src.cli memory
+```
+
+### 4. Launch FastAPI REST API Server
+```bash
+make run-api
+# Open interactive Swagger Docs at http://localhost:8000/docs
+```
+
+Available API Endpoints:
+* `GET  /health` - Server health and governance status
+* `POST /api/v1/governance/check` - Real-time command verification
+* `GET  /api/v1/skills` - List skills metadata
+* `GET  /api/v1/skills/{name}` - Retrieve complete runbook and scripts
+* `GET  /api/v1/memory` - Search long-term memory
+* `POST /api/v1/memory` - Store new memory/preference
+* `POST /api/v1/agent/run` - Autonomous governed agent execution loop
+
+---
+
 ## 🏁 Zero-to-Hero 5-Phase Implementation Checklist
 
 - [ ] **Phase 1: Foundation (Day 1)**
