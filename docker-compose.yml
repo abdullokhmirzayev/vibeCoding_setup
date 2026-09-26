@@ -1,0 +1,44 @@
+services:
+  # 1. Vector Database for Memory (Qdrant)
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: vibe_qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+  # 2. Relational + Vector Storage (PostgreSQL with pgvector)
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: vibe_postgres
+    environment:
+      POSTGRES_DB: vibe_db
+      POSTGRES_USER: vibe_user
+      POSTGRES_PASSWORD: vibe_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # 3. Observability & Tracing (Langfuse)
+  langfuse-server:
+    image: langfuse/langfuse:latest
+    container_name: vibe_langfuse
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://vibe_user:vibe_password@postgres:5432/vibe_db
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=vibe_secret_pass_12345
+      - SALT=vibe_salt_random_string_xyz
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+volumes:
+  qdrant_storage:
+  pgdata:

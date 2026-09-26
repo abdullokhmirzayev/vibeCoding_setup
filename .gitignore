@@ -1,7 +1,15 @@
-# Dependencies
+# Python & Dependencies
+.venv/
 node_modules/
 __pycache__/
 *.pyc
+*.pyo
+.pytest_cache/
+
+# Local Runtime Data & Databases
+.memory.db
+.memory.db-journal
+.logs/
 
 # Environment & Credentials
 .env
