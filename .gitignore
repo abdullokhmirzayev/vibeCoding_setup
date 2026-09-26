@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+
+# Environment & Credentials
+.env
+.env.*
+*.pem
+*.key
+
+# Logs & Traces
+*.log
+.system_generated/
+
+# OS Files
+.DS_Store
+Thumbs.db
